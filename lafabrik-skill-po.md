@@ -21,7 +21,7 @@ Ce fichier contient :
 - Les stories avec id, titre, description
 - Les critères d'acceptance
 - Les points d'estimation
-- Le milestone assigné (MVP / V1 / V2)
+- Le milestone assigné (MVP / V1 pre-store / V2)
 - Les items backlog hors scope
 
 ---
@@ -44,27 +44,28 @@ Le total est ainsi visible automatiquement dans les cycles Linear.
 
 ## LABELS — TOUJOURS DEUX LABELS PAR TICKET
 
-### Groupe Agent (obligatoire — 1 parmi)
-- [PO] → features, stories
-- [Designer] → design, UX, composants
-- [Dev] → technique, setup, infra
-- [QA] → bugs, recette
-- [TechLead] → refacto, dette technique
+### Groupe Agent (obligatoire — indique QUI doit traiter le ticket)
+- [PO]       → décision fonctionnelle requise, à affiner
+- [Designer] → ticket de design à traiter par l'Agent Designer
+- [Dev]      → ticket à implémenter par Claude Code
+- [QA]       → ticket de recette ou bug à traiter
+- [TechLead] → refacto ou dette technique à traiter
 
-### Groupe Type (obligatoire — 1 parmi)
-- Feature → nouvelle fonctionnalité
-- Design → UX, visuel, composants
-- Bug → anomalie à corriger
-- Infra → setup, config, infrastructure
-- Refacto → amélioration code existant
+### Groupe Type (obligatoire — indique la nature du ticket)
+- Feature  → nouvelle fonctionnalité
+- Design   → UX, visuel, composants
+- Bug      → anomalie à corriger
+- Infra    → setup, config, infrastructure
+- Refacto  → amélioration code existant
 
 ### Exemples de combinaisons
 ```
-Story feature MVP     → [PO] + Feature
+Story feature MVP     → [Dev] + Feature      (Claude Code l'implémente)
 Setup Session 0       → [Dev] + Infra
 Bug trouvé en recette → [QA] + Bug
 Audit code entre lots → [TechLead] + Refacto
 Direction visuelle V1 → [Designer] + Design
+Décision fonctionnelle en suspens → [PO] + Feature
 ```
 
 ---
@@ -72,9 +73,14 @@ Direction visuelle V1 → [Designer] + Design
 ## FORMAT D'UN TICKET LINEAR
 
 ### Titre
+Nom de la story uniquement — pas de crochets, pas de préfixe version.
+Le milestone porte déjà l'information de version.
 ```
-[{STORY_ID}] {TITRE}
-Exemple : [S1.1] Inscription email
+✅ Inscription email
+✅ Apple Sign-In
+✅ Timer de repos
+❌ [S1.1] Inscription email   ← inutile
+❌ [V1] Apple Sign-In         ← inutile, déjà dans le milestone
 ```
 
 ### Description
@@ -91,14 +97,20 @@ En tant que {persona}, {action}.
 {si pertinent depuis le data model ou l'architecture}
 ```
 
+Ne pas répéter dans la description :
+- Le milestone ou la version (déjà dans les métadonnées)
+- La session Claude Code (info de delivery, pas de discovery)
+- Le statut backlog (déjà dans le statut du ticket)
+
 ### Métadonnées
 ```
-Team      : Product (features, design) | Dev (technique, infra)
+Team      : Product (features, design) | Tech (technique, infra)
 Projet    : {nom du projet}
 Milestone : MVP | V1 pre-store | V2
 Labels    : [Agent] + Type (toujours deux labels)
 Estimate  : 1 | 2 | 3 | 5 | 8 (Fibonacci Linear)
-Priorité  : selon les points (3pts = High, 2pts = Medium, 1pt = Low)
+Priorité  : High (3pts) | Medium (2pts) | Low (1pt)
+Statut    : Done (MVP déjà livré) | Backlog (V1, V2)
 ```
 
 ---
@@ -107,32 +119,29 @@ Priorité  : selon les points (3pts = High, 2pts = Medium, 1pt = Low)
 
 ### Epics → pas de ticket
 Les epics ne deviennent pas des tickets.
-On préfixe les story_id pour garder la traçabilité (S1.1, S2.3...).
 
-### Stories MVP → Milestone MVP
-Toutes les stories du périmètre MVP.
-Ajouter en description : `Session Claude Code : Session {N}`
+### Stories MVP → Milestone MVP · Statut Done
+Toutes les stories du périmètre MVP déjà livré.
+Statut : Done (le MVP est terminé).
 
-### Stories hors scope → Milestone V1 ou V2
-Backlog "hors scope MVP" → Milestone V1 pre-store · Priorité Medium
-Items "V2" → Milestone V2 · Priorité Low
+### Stories V1 → Milestone V1 pre-store · Statut Backlog
+Les items du backlog V1. Priorité Medium par défaut.
+
+### Stories V2 → Milestone V2 · Statut Backlog
+Les items V2. Priorité Low par défaut.
 
 ### Items "Jamais" → ne pas créer de ticket
-Les features explicitement abandonnées ne vont pas dans Linear.
 
 ---
 
 ## ORDRE DE CRÉATION
 
-1. Créer les milestones si inexistants : MVP · V1 pre-store · V2
-2. Tickets MVP par session :
-   - Session 0 → [Dev] + Infra (setup, migrations, seed)
-   - Session 1 → stories S1.x + S2.1, S2.2
-   - Session 2 → stories S2.3 à S2.5 + S3.1, S3.2
-   - Session 3 → stories S3.3 à S3.6
-3. Tickets V1 pre-store (backlog hors scope)
-4. Tickets V2
-5. Tickets projet La Fabrik (agents à construire)
+1. Vérifier que les milestones existent : MVP · V1 pre-store · V2
+   Les créer si absents.
+2. Tickets MVP (statut Done) — team Tech ou Product selon la nature
+3. Tickets V1 pre-store (statut Backlog)
+4. Tickets V2 (statut Backlog)
+5. Tickets projet La Fabrik dans le projet La Fabrik
 
 ---
 
@@ -140,38 +149,8 @@ Les features explicitement abandonnées ne vont pas dans Linear.
 Pour chaque nouveau projet, créer dans le projet La Fabrik :
 
 ```
-[Fabrik] Construire skill Designer — {projet} → [TechLead] + Infra · Estimate 3
-[Fabrik] Session Refacto avant Lot 2           → [TechLead] + Refacto · Estimate 3
-[Fabrik] Recette manuelle Session {N}          → [QA] + Feature · Estimate 1
-```
-
----
-
-## EXEMPLE COMPLET — ticket S3.4 GymLog
-
-```
-Titre     : [S3.4] Perfs live — dernière séance
-Team      : Product
-Projet    : GymLog
-Milestone : MVP
-Labels    : [PO] + Feature
-Estimate  : 3
-Priorité  : High
-Session   : Session 3
-
-## Story
-En tant qu'utilisateur en train de logger une séance,
-je vois ce que j'avais fait la dernière fois sur cet exercice.
-
-## Critères d'acceptance
-- Colonne "dernière fois" affichée à côté de chaque ligne de saisie
-- Règle : même exercice + même template uniquement
-- Afficher "—" si aucune session précédente pour ce template
-- Données en lecture seule
-
-## Notes techniques
-Query clé documentée dans gymlog-data-model.sql.
-Index requis : sessions(user_id, template_id, completed_at)
+Construire skill Designer — {projet} → [TechLead] + Infra · Estimate 3
+Session Refacto avant V1             → [TechLead] + Refacto · Estimate 3
 ```
 
 ---
@@ -183,10 +162,10 @@ Index requis : sessions(user_id, template_id, completed_at)
 Lis lafabrik-skill-po.md et {projet}-story-map.html.
 Tu es l'Agent PO de La Fabrik.
 Crée tous les tickets Linear pour le projet {projet}.
-Workspace : La Fabrik · Team Product pour les features · Team Dev pour le technique.
+Workspace La Fabrik · Team Product pour les features · Team Tech pour le technique.
 ```
 
-### Dans Claude Code
+### Dans Claude Code (API Linear)
 ```
 Lis lafabrik-skill-po.md.
 Utilise l'API Linear avec LINEAR_API_KEY dans .env.local.
@@ -196,18 +175,18 @@ Lis {projet}-story-map.html et crée tous les tickets.
 ---
 
 ## VÉRIFICATION APRÈS CRÉATION
-Produire un récap une fois tous les tickets créés :
 
 ```
 Projet : {nom}
 ─────────────────────────────
-MVP         : {N} tickets · {N} points
-V1          : {N} tickets
-V2          : {N} tickets
-La Fabrik   : {N} tickets
+MVP            : {N} tickets · {N} points · Done ✅
+V1 pre-store   : {N} tickets · Backlog
+V2             : {N} tickets · Backlog
+La Fabrik      : {N} tickets
 ─────────────────────────────
-Total       : {N} tickets
-Milestones  : ✅ créés
-Labels      : ✅ deux labels par ticket
-Estimates   : ✅ Fibonacci appliqué
+Total          : {N} tickets
+Milestones     : ✅ créés
+Labels         : ✅ deux labels par ticket
+Estimates      : ✅ Fibonacci appliqué
+Titres         : ✅ sans crochets ni préfixe version
 ```
