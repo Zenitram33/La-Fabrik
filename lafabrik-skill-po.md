@@ -74,7 +74,7 @@ Décision fonctionnelle en suspens → [PO] + Feature
 
 ### Titre
 Nom de la story uniquement — pas de crochets, pas de préfixe version.
-Le milestone porte déjà l'information de version.
+Le milestone et le numéro portent déjà les informations de version et d'ordre.
 ```
 ✅ Inscription email
 ✅ Apple Sign-In
@@ -109,9 +109,49 @@ Projet    : {nom du projet}
 Milestone : MVP | V1 pre-store | V2
 Labels    : [Agent] + Type (toujours deux labels)
 Estimate  : 1 | 2 | 3 | 5 | 8 (Fibonacci Linear)
-Priorité  : High (3pts) | Medium (2pts) | Low (1pt)
+Priorité  : Urgent | High | Medium | Low
 Statut    : Done (MVP déjà livré) | Backlog (V1, V2)
 ```
+
+---
+
+## ORDONNANCEMENT — RÈGLE IMPORTANTE
+
+### Tickets d'un projet app (GymLog, etc.)
+Les tickets V1 et V2 doivent être ordonnés avec un numéro en préfixe du titre.
+Claude Code utilise cet ordre pour savoir quoi traiter en premier.
+
+Format du titre ordonné :
+```
+{N}. {Nom de la story}
+Exemple : 1. Refonte design — UX + UI tous écrans
+          2. EAS Build → TestFlight
+          3. Apple Sign-In
+```
+
+Règles de priorité pour déterminer l'ordre :
+- Les tickets bloquants (infra, setup) passent en premier
+- Les tickets de design passent avant les tickets de features
+  (on code sur une base designée)
+- Les tickets Apple/Auth passent avant les features métier
+- Les tickets de confort (drag & drop, timer) passent en dernier
+
+Correspondance numéro → priorité Linear :
+```
+1-2 → Urgent
+3-4 → High
+5-6 → Medium
+7+  → Low
+```
+
+### Tickets MVP
+Les tickets MVP n'ont pas besoin de numérotation — ils correspondent
+aux sessions Claude Code (Session 0, 1, 2, 3) et sont tous Done.
+
+### Tickets La Fabrik
+Les tickets du projet La Fabrik (infra agents, skills) ne sont PAS
+ordonnancés — ils sont traités selon la disponibilité, pas une séquence.
+Ne pas mettre de numéro dans leur titre.
 
 ---
 
@@ -124,11 +164,12 @@ Les epics ne deviennent pas des tickets.
 Toutes les stories du périmètre MVP déjà livré.
 Statut : Done (le MVP est terminé).
 
-### Stories V1 → Milestone V1 pre-store · Statut Backlog
-Les items du backlog V1. Priorité Medium par défaut.
+### Stories V1 → Milestone V1 pre-store · Statut Backlog · Ordonnancées
+Les items du backlog V1. Préfixer les titres de 1, 2, 3...
+dans l'ordre logique de traitement.
 
-### Stories V2 → Milestone V2 · Statut Backlog
-Les items V2. Priorité Low par défaut.
+### Stories V2 → Milestone V2 · Statut Backlog · Ordonnancées
+Les items V2. Préfixer les titres de 1, 2, 3...
 
 ### Items "Jamais" → ne pas créer de ticket
 
@@ -137,11 +178,10 @@ Les items V2. Priorité Low par défaut.
 ## ORDRE DE CRÉATION
 
 1. Vérifier que les milestones existent : MVP · V1 pre-store · V2
-   Les créer si absents.
-2. Tickets MVP (statut Done) — team Tech ou Product selon la nature
-3. Tickets V1 pre-store (statut Backlog)
-4. Tickets V2 (statut Backlog)
-5. Tickets projet La Fabrik dans le projet La Fabrik
+2. Tickets MVP (statut Done)
+3. Tickets V1 pre-store (statut Backlog, numérotés)
+4. Tickets V2 (statut Backlog, numérotés)
+5. Tickets projet La Fabrik (sans numérotation)
 
 ---
 
@@ -150,8 +190,10 @@ Pour chaque nouveau projet, créer dans le projet La Fabrik :
 
 ```
 Construire skill Designer — {projet} → [TechLead] + Infra · Estimate 3
-Session Refacto avant V1             → [TechLead] + Refacto · Estimate 3
+Session Refacto avant V1 — {projet}  → [TechLead] + Refacto · Estimate 3
 ```
+
+Pas de numérotation dans les titres La Fabrik.
 
 ---
 
@@ -180,13 +222,13 @@ Lis {projet}-story-map.html et crée tous les tickets.
 Projet : {nom}
 ─────────────────────────────
 MVP            : {N} tickets · {N} points · Done ✅
-V1 pre-store   : {N} tickets · Backlog
-V2             : {N} tickets · Backlog
-La Fabrik      : {N} tickets
+V1 pre-store   : {N} tickets · numérotés 1 à N · Backlog
+V2             : {N} tickets · numérotés 1 à N · Backlog
+La Fabrik      : {N} tickets · sans numérotation
 ─────────────────────────────
 Total          : {N} tickets
 Milestones     : ✅ créés
 Labels         : ✅ deux labels par ticket
 Estimates      : ✅ Fibonacci appliqué
-Titres         : ✅ sans crochets ni préfixe version
+Ordonnancement : ✅ V1 et V2 numérotés · La Fabrik non numérotée
 ```
