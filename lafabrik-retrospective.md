@@ -225,3 +225,22 @@ pas de séquence — ils sont traités selon la disponibilité.
 |----------|---------------|----------------------------------------------|
 | GymLog   | MVP terminé   | V1 pre-store en cours · design validé        |
 | _Fabrik  | En cours      | Skill PO ✅ · Skill Designer ✅ · Linear configuré |
+
+---
+
+## AGENT TECH LEAD
+
+### Déclencher à la fin de chaque milestone, pas de session
+Trop fréquent à chaque session — pas assez de code accumulé.
+→ Fin MVP → refacto → V1. Fin V1 → refacto → V2.
+
+### Pas de ticket entrant — tickets créés en sortie
+L'agent ne consomme pas de ticket Linear.
+Il crée ses propres tickets Done pour chaque action effectuée.
+→ Titre descriptif sans crochets : "Suppression imports inutilisés — stores"
+→ Team Tech · labels [TechLead] + Refacto · statut Done
+→ Traçabilité complète de la dette technique dans Linear
+
+### Skill Claude Code uniquement
+lafabrik-skill-techlead.md va dans skills/ du projet.
+Claude Chat n'en a jamais besoin.
