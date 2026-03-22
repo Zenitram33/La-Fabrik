@@ -168,3 +168,60 @@ Lu entièrement à chaque démarrage — consomme du contexte inutilement si tro
 |----------|-------------|-------------------------------------|
 | GymLog   | MVP terminé | V1 pre-store en cours               |
 | _Fabrik  | En cours    | Skill PO créé · Agent Designer next |
+
+---
+
+## AGENT DESIGNER
+
+### Déclencher l'Agent Designer entre MVP et V1
+Le design ne se fait pas pendant le MVP — on code fonctionnel d'abord.
+L'Agent Designer se déclenche une fois le MVP terminé et testé.
+→ Skill : lafabrik-skill-designer.md
+→ 2 questions de cadrage (thème + ambiance) puis tour des écrans
+→ Maquettes générées dans Claude Chat avec le visualizer
+→ Validation explicite avant de créer les sub-issues Linear
+→ Sub-issues créées sous le ticket parent "Refonte design" (V1)
+
+### Ne jamais mettre à jour Linear avant validation explicite
+Claude a tendance à créer/modifier les tickets Linear trop tôt.
+→ Toujours attendre la validation de Romain avant de toucher à Linear.
+→ Finir le tour complet des écrans avant de créer les sub-issues.
+
+### Maquettes visuelles dans Claude Chat
+Claude peut générer des maquettes d'écrans mobile directement
+dans Claude Chat avec le visualizer HTML. C'est suffisant pour valider
+l'UX sans Figma ni outil externe.
+→ 3 écrans max par rendu
+→ Utiliser les CSS variables pour le dark/light mode
+→ Simuler de vraies données (pas "Exercice 1")
+
+---
+
+## ORGANISATION LINEAR — COMPLÉMENTS
+
+### Sub-issues pour les gros tickets
+Un ticket de design ou de feature complexe doit être découpé
+en sub-issues par écran ou par fonctionnalité.
+→ Chaque sub-issue = un écran ou une feature atomique
+→ Claude Code peut les traiter et les marquer Done indépendamment
+
+### Priorité dans Linear — inutile pour un studio solo
+La priorité High/Urgent/Medium n'apporte rien quand on est seul.
+La numérotation dans le titre (1. 2. 3.) est suffisante et plus claire.
+→ Laisser la priorité à None
+→ Le numéro dans le titre = l'ordre de traitement
+
+### Tickets La Fabrik — pas d'ordonnancement
+Les tickets du projet La Fabrik (infra agents, skills) ne suivent
+pas de séquence — ils sont traités selon la disponibilité.
+→ Pas de numéro dans les titres La Fabrik
+→ Pas de priorité
+
+---
+
+## PROJETS LA FABRIK
+
+| Projet   | Statut        | Notes                                        |
+|----------|---------------|----------------------------------------------|
+| GymLog   | MVP terminé   | V1 pre-store en cours · design validé        |
+| _Fabrik  | En cours      | Skill PO ✅ · Skill Designer ✅ · Linear configuré |
