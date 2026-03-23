@@ -244,3 +244,47 @@ Il crée ses propres tickets Done pour chaque action effectuée.
 ### Skill Claude Code uniquement
 lafabrik-skill-techlead.md va dans skills/ du projet.
 Claude Chat n'en a jamais besoin.
+
+---
+
+## VISION DISCOVERY AUTOMATISÉE — PROCHAIN PROJET
+
+### Agents Discovery à construire
+Pour le prochain projet, industrialiser la discovery avec ces agents :
+
+**Agent PM**
+→ Reçoit le pitch (2-3 min)
+→ Pose les bonnes questions (méthode connue : Jobs-to-be-done, etc.)
+→ Aide à définir les features MVP
+→ Skill : chat/pm-discovery.md
+
+**Agent PMM (Product Marketing Manager)**
+→ Analyse de marché automatique
+→ Recherche apps concurrentes (existantes, payantes, gratuites)
+→ Identifie s'il y a une place à prendre
+→ Génère un rapport de synthèse (PowerPoint ou HTML)
+→ Skill : chat/pmm-market.md
+
+### Pipeline d'automatisation Discovery → Delivery
+```
+Pitch → Agent PM → Agent PMM → Story map validée
+→ Trigger GitHub (story map pushée)
+→ Outil automation (Gumloop ou N8N)
+→ Agent PO → tickets Linear créés
+→ Notification Slack (ou autre) : "Linear prêt"
+→ Claude Code consulte Linear → démarre le dev
+```
+
+### Notification
+Prévoir un canal de notification (Slack ou autre) pour que
+les agents puissent signaler la fin de leurs actions.
+Ex : "Agent PO — 26 tickets créés dans GymLog V1"
+
+### Choix outil automation
+Gumloop vs N8N — à évaluer au moment de l'implémentation.
+Gumloop : plus simple, pensé pour les agents IA
+N8N : plus puissant, open source, self-hostable
+
+### Rapport PMM
+L'Agent PMM génère un livrable visuel (HTML ou PPTX ou Gamma)
+avec l'analyse de marché — consultable par le porteur de projet.
