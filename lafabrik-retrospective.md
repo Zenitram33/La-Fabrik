@@ -24,6 +24,12 @@ pour le data model. La poser explicitement avant de valider les epics.
 Si deux epics touchent le même front et les mêmes données, proposer la fusion.
 → Moins de complexité, plus de cohérence dans l'implémentation.
 
+### Faire la Discovery avant chaque milestone
+Le timer V1 a été implémenté sans discovery → solution rejetée par Romain.
+→ Bloquer une session Discovery avant de créer les tickets de chaque milestone.
+→ Aucun ticket de feature sans story validée.
+→ Le coût d'un refacto non planifié dépasse largement celui d'une discovery.
+
 ---
 
 ## SESSION 0 — SETUP
@@ -160,131 +166,49 @@ Lu entièrement à chaque démarrage — consomme du contexte inutilement si tro
 → Toujours deux labels par ticket (1 Agent + 1 Type)
 → Estimation Fibonacci natif Linear : 1 · 2 · 3 · 5 · 8
 
----
-
-## PROJETS LA FABRIK
-
-| Projet   | Statut      | Notes                              |
-|----------|-------------|-------------------------------------|
-| GymLog   | MVP terminé | V1 pre-store en cours               |
-| _Fabrik  | En cours    | Skill PO créé · Agent Designer next |
-
----
-
-## AGENT DESIGNER
-
-### Déclencher l'Agent Designer entre MVP et V1
-Le design ne se fait pas pendant le MVP — on code fonctionnel d'abord.
-L'Agent Designer se déclenche une fois le MVP terminé et testé.
-→ Skill : lafabrik-skill-designer.md
-→ 2 questions de cadrage (thème + ambiance) puis tour des écrans
-→ Maquettes générées dans Claude Chat avec le visualizer
-→ Validation explicite avant de créer les sub-issues Linear
-→ Sub-issues créées sous le ticket parent "Refonte design" (V1)
-
-### Ne jamais mettre à jour Linear avant validation explicite
-Claude a tendance à créer/modifier les tickets Linear trop tôt.
-→ Toujours attendre la validation de Romain avant de toucher à Linear.
-→ Finir le tour complet des écrans avant de créer les sub-issues.
-
-### Maquettes visuelles dans Claude Chat
-Claude peut générer des maquettes d'écrans mobile directement
-dans Claude Chat avec le visualizer HTML. C'est suffisant pour valider
-l'UX sans Figma ni outil externe.
-→ 3 écrans max par rendu
-→ Utiliser les CSS variables pour le dark/light mode
-→ Simuler de vraies données (pas "Exercice 1")
+### Token Linear — même token pour Claude Chat et Claude Code
+→ Le MCP Linear (Claude Chat) et l'API Linear (Claude Code) utilisent
+  le même Personal API Key dans Linear Settings.
+→ Quand le token expire, les deux tombent simultanément.
+→ Fix unique : Linear Settings → API → Personal API keys → régénérer
+  puis mettre à jour dans .env.local (Claude Code) ET reconnecter
+  le MCP dans claude.ai Settings → Connections.
 
 ---
 
-## ORGANISATION LINEAR — COMPLÉMENTS
+## NAMING & BRANDING
 
-### Sub-issues pour les gros tickets
-Un ticket de design ou de feature complexe doit être découpé
-en sub-issues par écran ou par fonctionnalité.
-→ Chaque sub-issue = un écran ou une feature atomique
-→ Claude Code peut les traiter et les marquer Done indépendamment
+### Le nom App Store n'est pas définitif
+→ Bundle ID = permanent et invisible des users. Ne jamais changer.
+→ Nom affiché sur l'App Store = modifiable à tout moment dans App Store Connect.
+→ Ne pas bloquer une V1 ou une mise en prod sur le naming.
+→ Industrialiser le brainstorming naming dans un skill dédié (à créer).
 
-### Priorité dans Linear — inutile pour un studio solo
-La priorité High/Urgent/Medium n'apporte rien quand on est seul.
-La numérotation dans le titre (1. 2. 3.) est suffisante et plus claire.
-→ Laisser la priorité à None
-→ Le numéro dans le titre = l'ordre de traitement
+### "GymLog" tout attaché est déjà pris sur l'App Store
+→ Deux apps existantes : "GymLog App" (GymLog Inc.) et "GymLog: Workout Tracker".
+→ App Store Connect bloquera l'enregistrement du nom exact "GymLog".
+→ Noms disponibles probables : Sett, Reppr, Forj, Liftr (à vérifier au moment de la soumission).
 
-### Tickets La Fabrik — pas d'ordonnancement
-Les tickets du projet La Fabrik (infra agents, skills) ne suivent
-pas de séquence — ils sont traités selon la disponibilité.
-→ Pas de numéro dans les titres La Fabrik
-→ Pas de priorité
+---
+
+## APPLE / TESTFLIGHT
+
+### Deux consoles distinctes — rôles différents
+→ developer.apple.com = console technique (App IDs, certificates, provisioning profiles,
+  capabilities). EAS gère souvent cette partie automatiquement.
+→ App Store Connect = console distribution (fiche app, builds, TestFlight, soumission review).
+  C'est la console principale pour la mise en prod.
+
+### Apple Sign-In : tester sur build EAS, pas Expo Go
+→ Dans Expo Go, Apple Sign-In crée un compte lié au bundle ID d'Expo Go,
+  pas à com.lafabrik.{projet}. Les comptes créés sont "parasites" et sans impact prod.
+→ Recette Apple Sign-In = uniquement sur build EAS (TestFlight ou dev build).
 
 ---
 
 ## PROJETS LA FABRIK
 
-| Projet   | Statut        | Notes                                        |
-|----------|---------------|----------------------------------------------|
-| GymLog   | MVP terminé   | V1 pre-store en cours · design validé        |
-| _Fabrik  | En cours      | Skill PO ✅ · Skill Designer ✅ · Linear configuré |
-
----
-
-## AGENT TECH LEAD
-
-### Déclencher à la fin de chaque milestone, pas de session
-Trop fréquent à chaque session — pas assez de code accumulé.
-→ Fin MVP → refacto → V1. Fin V1 → refacto → V2.
-
-### Pas de ticket entrant — tickets créés en sortie
-L'agent ne consomme pas de ticket Linear.
-Il crée ses propres tickets Done pour chaque action effectuée.
-→ Titre descriptif sans crochets : "Suppression imports inutilisés — stores"
-→ Team Tech · labels [TechLead] + Refacto · statut Done
-→ Traçabilité complète de la dette technique dans Linear
-
-### Skill Claude Code uniquement
-lafabrik-skill-techlead.md va dans skills/ du projet.
-Claude Chat n'en a jamais besoin.
-
----
-
-## VISION DISCOVERY AUTOMATISÉE — PROCHAIN PROJET
-
-### Agents Discovery à construire
-Pour le prochain projet, industrialiser la discovery avec ces agents :
-
-**Agent PM**
-→ Reçoit le pitch (2-3 min)
-→ Pose les bonnes questions (méthode connue : Jobs-to-be-done, etc.)
-→ Aide à définir les features MVP
-→ Skill : chat/pm-discovery.md
-
-**Agent PMM (Product Marketing Manager)**
-→ Analyse de marché automatique
-→ Recherche apps concurrentes (existantes, payantes, gratuites)
-→ Identifie s'il y a une place à prendre
-→ Génère un rapport de synthèse (PowerPoint ou HTML)
-→ Skill : chat/pmm-market.md
-
-### Pipeline d'automatisation Discovery → Delivery
-```
-Pitch → Agent PM → Agent PMM → Story map validée
-→ Trigger GitHub (story map pushée)
-→ Outil automation (Gumloop ou N8N)
-→ Agent PO → tickets Linear créés
-→ Notification Slack (ou autre) : "Linear prêt"
-→ Claude Code consulte Linear → démarre le dev
-```
-
-### Notification
-Prévoir un canal de notification (Slack ou autre) pour que
-les agents puissent signaler la fin de leurs actions.
-Ex : "Agent PO — 26 tickets créés dans GymLog V1"
-
-### Choix outil automation
-Gumloop vs N8N — à évaluer au moment de l'implémentation.
-Gumloop : plus simple, pensé pour les agents IA
-N8N : plus puissant, open source, self-hostable
-
-### Rapport PMM
-L'Agent PMM génère un livrable visuel (HTML ou PPTX ou Gamma)
-avec l'analyse de marché — consultable par le porteur de projet.
+| Projet   | Statut           | Notes                                        |
+|----------|------------------|----------------------------------------------|
+| GymLog   | V1 pre-store ✅  | TestFlight + images exercices next           |
+| _Fabrik  | En cours         | Skill PO créé · Skill Designer créé          |
