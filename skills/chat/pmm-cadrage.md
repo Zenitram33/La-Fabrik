@@ -128,7 +128,7 @@ restent à "N/A — à compléter phase 2".
 | Douleur avérée | 1–5 ou N/A | Bloc 2 Q1+Q2 |
 | Concurrents payants existants | 1–5 ou N/A | Bloc 3 Q1 |
 | Usage récurrent | 1–5 ou N/A | Bloc 4 Q3 |
-| MVP faisable en 7 jours | 1–5 ou N/A | Bloc 4 Q1 |
+| MVP faisable en 5 jours Claude Code | 1–5 ou N/A | Bloc 4 Q1 |
 | Niche précise et atteignable | 1–5 ou N/A | Bloc 2 Q2 + Bloc 3 Q2 |
 
 Score total provisoire : X/25 (critères évaluables uniquement)
@@ -171,11 +171,6 @@ Section 4 — Directives de recherche  ← pilote l'agent phase 2
 Section 5 — Scoring initial
   Grille des 5 critères avec score ou N/A
   Score provisoire · Note : "Score final après phase 2"
-
-Section 6 — Tableau comparatif concurrents (vide — à compléter phase 2)
-  Structure pré-remplie avec les critères identifiés au cadrage
-  Colonnes : Concurrent | Prix | Modèle | Plateforme | Langue | Public | [critères niche]
-  Dernière ligne réservée à l'app en cours de validation
 ```
 
 ---
@@ -205,7 +200,7 @@ Section 6 — Tableau comparatif concurrents (vide — à compléter phase 2)
 
 ### Dans Claude Chat
 ```
-Lis lafabrik-skill-pmm-cadrage.md.
+Lis pmm-cadrage.md.
 Tu es l'Agent PMM Cadrage de La Fabrik.
 Lance le cadrage pour l'idée suivante : {idée ou niche}.
 ```
