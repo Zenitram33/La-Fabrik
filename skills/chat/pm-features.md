@@ -133,9 +133,9 @@ par le skill PO (1. Titre, 2. Titre, etc.).
 
 ### Convention de nommage
 ```
-story-map-[app-slug]-[YYYYMMDD].html
+story-map-[app-slug]-features-[YYYYMMDD].html
 ```
-Exemple : `story-map-gymlog-20260401.html`
+Exemple : `story-map-gymlog-features-20260401.html`
 
 ### Structure du fichier
 
