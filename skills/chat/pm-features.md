@@ -133,9 +133,9 @@ par le skill PO (1. Titre, 2. Titre, etc.).
 
 ### Convention de nommage
 ```
-story-map-[app-slug]-features-[YYYYMMDD].html
+story-map-[app-slug]-[YYYYMMDD].html
 ```
-Exemple : `story-map-gymlog-features-20260401.html`
+Exemple : `story-map-gymlog-20260401.html`
 
 ### Structure du fichier
 
@@ -172,6 +172,90 @@ gray · purple · teal · blue · coral
 | Story trop complexe pour MVP | Proposer le passage en V1 |
 | Total MVP > 25 pts | Challenger chaque story — forcer le tri |
 | Critères d'acceptance vagues | Reformuler en conditions testables |
+
+---
+
+## EPIC ABONNEMENT — SYSTÉMATIQUE DANS TOUS LES PROJETS
+
+L'epic "Abonnement / Monétisation" est toujours présente dans le MVP.
+C'est une epic technique mais elle conditionne tout le reste.
+
+### Recommandation avant de définir les stories
+Avant de travailler les stories de cet epic, l'agent consulte
+le rapport PMM et fait une recommandation explicite :
+
+> "D'après le rapport PMM, les concurrents pratiquent {prix}
+> avec un modèle {freemium / abonnement pur / one-shot}.
+> Je te recommande {modèle} à {prix} — {raison courte}.
+> Tu valides cette direction ?"
+
+Attendre la validation avant de passer aux stories.
+
+### Stories systématiques de l'epic Abonnement
+```
+S?.1 — Paywall et souscription
+  En tant qu'utilisateur gratuit, je vois les features premium
+  et je peux souscrire un abonnement
+  Critères :
+  - Écran paywall avec features premium listées
+  - Intégration RevenueCat (iOS + Android)
+  - Offre mensuelle + annuelle proposées
+  - Bouton de souscription fonctionnel
+  Points : 3 · Périmètre : MVP
+
+S?.2 — Restauration d'achat
+  En tant qu'utilisateur premium, je retrouve mon abonnement
+  si je réinstalle l'app
+  Critères :
+  - Bouton "Restaurer mes achats"
+  - Vérification RevenueCat au démarrage
+  Points : 1 · Périmètre : MVP
+
+S?.3 — Accès conditionnel aux features premium
+  En tant qu'utilisateur, je vois les features gratuites
+  et les features premium selon mon statut
+  Critères :
+  - Features premium inaccessibles sans abonnement
+  - Indicateur visuel clair gratuit vs premium
+  - Pas de dégradation de l'expérience gratuite
+  Points : 2 · Périmètre : MVP
+```
+
+---
+
+## MONÉTISATION — MODÉLISER LE FREEMIUM DANS LES STORIES
+
+La stratégie de monétisation est définie dans le rapport PMM.
+L'agent pm-features doit la traduire concrètement dans les stories.
+
+### Identifier le paywall
+Pour chaque story MVP, décider explicitement :
+- **Gratuit** → accessible sans abonnement
+- **Premium** → derrière le paywall — nécessite RevenueCat
+
+Règle : le tier gratuit doit être suffisamment utile pour attirer.
+Le tier premium doit être suffisamment meilleur pour convertir.
+Ratio visé : 5–10% des utilisateurs gratuits passent en payant.
+
+### Story paywall obligatoire
+Ajouter systématiquement une story dédiée à l'implémentation du paywall :
+
+```
+Titre       : Paywall et abonnement
+Description : En tant qu'utilisateur gratuit, je vois les features
+              premium et je peux souscrire un abonnement
+Critères    : - Écran paywall avec les features premium listées
+              - Intégration RevenueCat (iOS + Android)
+              - Mensuel + annuel proposés
+              - Restauration d'achat possible
+Points      : 3
+Périmètre   : MVP
+```
+
+### Dans la story map HTML
+Marquer chaque story avec un indicateur de tier :
+- 🆓 Gratuit
+- ⭐ Premium
 
 ---
 
